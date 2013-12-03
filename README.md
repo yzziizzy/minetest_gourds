@@ -56,5 +56,6 @@ Gourd Types
 * Cucumber
 * Musk Melon
 * Giant Pumpkin
+* Honeydew
 
 
