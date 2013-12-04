@@ -22,12 +22,12 @@ local function register_gourd(info)
 		end
 	})
 		
-	minetest.register_node("gourds:"..name.."_root", {
+	minetest.register_node("gourds:"..name.."_sapling", {
 		paramtype = "light",
 		walkable = false,
 		drawtype = "plantlike",
 		drop = "",
-		tiles = {"gourds_"..name.."_root.png"},
+		tiles = {"gourds_"..name.."_sapling.png"},
 		selection_box = {
 			type = "fixed",
 			fixed = {
@@ -42,6 +42,33 @@ local function register_gourd(info)
 		end,
 	})
 	
+	minetest.register_node("gourds:"..name.."_root", {
+		paramtype = "light",
+		walkable = false,
+		sunlight_propagates = true,
+		drawtype = "nodebox",
+		drop = ":gourds:"..name.."_sapling",
+		tiles = {"gourds_"..name.."_vines.png"},
+		node_box = {
+			type = "fixed",
+			fixed = {
+				{-0.5, -0.5, -0.5, 0.5, -0.1, 0.5}
+			},
+		},
+		selection_box = {
+			type = "fixed",
+			fixed = {
+				{-0.5, -0.5, -0.5, 0.5, -0.1, 0.5}
+			},
+		},
+		groups = {snappy=3, flammable=2, not_in_creative_inventory=1,plant=1, gourd_vines=1 },
+		sounds = default.node_sound_leaves_defaults(),
+
+		on_construct = function(pos)
+			-- set the initial growth limit
+			-- set meta info on it
+		end,
+	})
 	minetest.register_node("gourds:"..name.."_vines", {
 		paramtype = "light",
 		walkable = false,
