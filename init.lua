@@ -13,7 +13,7 @@ gourds.register_gourd({
 	name = "pumpkin",
 	desc = "Pumpkin",
 	
-	base_speed = 5,
+	base_speed = 8,
 	grows_on = "soil",
 	
 	textures = {
@@ -27,11 +27,37 @@ gourds.register_gourd({
 	},
 })
 
+
+minetest.register_craftitem("gourds:pumpkin_slice", {
+	description = "Pumpkin Slice",
+	inventory_image = "gourds_pumpkin_slice.png",
+})
+minetest.register_craftitem("gourds:pumpkin_slice_cooked", {
+	description = "Roasted Pumpkin",
+	inventory_image = "gourds_pumpkin_slice_cooked.png",
+	on_use = minetest.item_eat(1)
+})
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "gourds:pumpkin_slice 6",
+	recipe = {"gourds:pumpkin_8"},
+})
+	
+
+minetest.register_craft({
+	type = "cooking",
+	output = "gourds:pumpkin_slice_cooked",
+	recipe = "gourds:pumpkin_slice",
+	cooktime = 15
+})
+
+
 gourds.register_gourd({
 	name = "watermelon",
 	desc = "Watermelon",
 	
-	base_speed = 5,
+	base_speed = 7,
 	grows_on = "sand",
 	
 	textures = {

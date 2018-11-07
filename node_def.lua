@@ -40,7 +40,6 @@ gourds.register_gourd = function(def)
 		description = "Ripe "..def.desc,
 		paramtype = "light",
 		drawtype = "nodebox",
-		drop = "",
 		tiles = {def.textures.ripe_fruit},
 		node_box = {
 			type = "fixed",
@@ -52,6 +51,7 @@ gourds.register_gourd = function(def)
 		sounds = default.node_sound_leaves_defaults(),
 	})
 
+	
 	minetest.register_node(rotting_fruit_name, {
 		description = "Rotting "..def.desc,
 		paramtype = "light",
