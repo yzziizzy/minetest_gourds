@@ -490,12 +490,40 @@ gourds.register_gourd = function(def)
 	-- vine roots die eventually
 	minetest.register_abm({
 		nodenames = {root_name},
-		interval = 60,
-		chance = base_speed * 50,
+		interval = 120,
+		chance = base_speed * 70,
 		action = function(pos)
 			minetest.set_node(pos, {name="air"})
 		end
 	})
 
+	
+		
+	if minetest.global_exists("seasons") then
+		
+		-- vines die off completely in the winter 
+		
+-- 		seasons.reg_custom("spring", vine_name, vine_name)
+-- 		seasons.reg_custom("summer", vine_name, vine_name)
+		seasons.reg_custom("fall", vine_name, dead_vine_name)
+		seasons.reg_custom("winter", vine_name, "air")
+		
+-- 		seasons.reg_custom("spring", vine_name_flowers, vine_name_flowers)
+-- 		seasons.reg_custom("summer", vine_name_flowers, vine_name_flowers)
+		seasons.reg_custom("fall", vine_name_flowers, dead_vine_name)
+		seasons.reg_custom("winter", vine_name_flowers, "air")
+		
+		seasons.reg_custom("winter", dead_vine_name, "air")
+		
+		seasons.reg_custom("winter", ripe_fruit_name, rotting_fruit_name)
+		for i = 1,7 do
+			seasons.reg_custom("winter", "gourds:"..def.name.."_"..i, "air")
+		end
+		
+		
+	end
+	
+	
+	
 end
 	
