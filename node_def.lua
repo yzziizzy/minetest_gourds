@@ -100,7 +100,8 @@ gourds.register_gourd = function(def)
 	minetest.register_node(vine_name, {
 		description = def.desc.." Vines",
 		drawtype = "nodebox",
-		paramtype = "light",  
+		paramtype = "light",
+		paramtype2 = "leveled",
 		tiles = {def.textures.vine},
 		leveled = 2,
 		walkable = false, -- because viscosity doesn't work for regular nodes, and the liquid hack can't be leveled
@@ -120,6 +121,7 @@ gourds.register_gourd = function(def)
 		description = def.desc.." Vines",
 		drawtype = "nodebox",
 		paramtype = "light",  
+		paramtype2 = "leveled",
 		leveled = 2,
 		tiles = {def.textures.vine_flowers},
 		walkable = false, -- because viscosity doesn't work for regular nodes, and the liquid hack can't be leveled
@@ -139,6 +141,7 @@ gourds.register_gourd = function(def)
 		description = "Dead "..def.desc.." Vines",
 		drawtype = "nodebox",
 		paramtype = "light",  
+		paramtype2 = "leveled",
 		tiles = {def.textures.dead_vine},
 		leveled = 2,
 		walkable = false, -- because viscosity doesn't work for regular nodes, and the liquid hack can't be leveled
@@ -166,7 +169,7 @@ gourds.register_gourd = function(def)
 	minetest.register_abm({
 		nodenames = {root_name},
 		interval = 5,
-		chance = base_speed * 1,
+		chance = base_speed * 0.25,
 		action = function(pos)
 			
 			local air_nodes = minetest.find_nodes_in_area(
@@ -181,7 +184,7 @@ gourds.register_gourd = function(def)
 				local fp = air_nodes[((i + off) % #air_nodes) + 1]
 				local bp = {x=fp.x, y=fp.y - 1, z=fp.z}
 				
-			
+				
 				
 				local bn = minetest.get_node(bp)
 				
@@ -201,14 +204,14 @@ gourds.register_gourd = function(def)
 	minetest.register_abm({
 		nodenames = {vine_name},
 		neighbors = {root_name},
-		interval = 5,
+		interval = 10,
 		chance = base_speed * 5,
 		action = function(pos)
 			local mylevel = minetest.get_node_level(pos)
 			
 			if minetest.get_node_light(pos) > 10 then
 				
-				minetest.set_node_level(pos, math.min(mylevel + 5, 64))
+				minetest.add_node_level(pos, 16)
 				
 			end
 		end
@@ -254,7 +257,7 @@ gourds.register_gourd = function(def)
 	minetest.register_abm({
 		nodenames = {vine_group},
 		neighbors = {"air"},
-		interval = 2,
+		interval = 10,
 		chance = base_speed * 10,
 		action = function(pos)
 			local mylevel = minetest.get_node_level(pos)
@@ -325,7 +328,7 @@ gourds.register_gourd = function(def)
 	-- vines die unless near a taller vine or a root
 	minetest.register_abm({
 		nodenames = {vine_group},
-		interval = 2,
+		interval = 5,
 		chance = base_speed * 20,
 		action = function(pos)
 			local mylevel = minetest.get_node_level(pos)
@@ -364,7 +367,7 @@ gourds.register_gourd = function(def)
 	-- dead vines shrink
 	minetest.register_abm({
 		nodenames = {dead_vine_name},
-		interval = 5,
+		interval = 10,
 		chance = base_speed * 1,
 		action = function(pos)
 			local mylevel = minetest.get_node_level(pos)
@@ -385,7 +388,7 @@ gourds.register_gourd = function(def)
 	-- some vines grow flowers
 	minetest.register_abm({
 		nodenames = {vine_group},
-		interval = 8,
+		interval = 16,
 		chance = base_speed * 30,
 		action = function(pos)
 			local mylevel = minetest.get_node_level(pos)
@@ -399,7 +402,7 @@ gourds.register_gourd = function(def)
 	-- vines with flowers grow gourds nearby
 	minetest.register_abm({
 		nodenames = {vine_name_flowers},
-		interval = 5,
+		interval = 10,
 		chance = base_speed * 20,
 		action = function(pos)
 			
@@ -431,7 +434,7 @@ gourds.register_gourd = function(def)
 	minetest.register_abm({
 		nodenames = {"group:growing_"..def.name},
 		interval = base_speed * 10,
-		chance = 2,
+		chance = 5,
 		action = function(pos)
 			local node = minetest.get_node(pos)
 			local lvl = minetest.get_item_group(node.name, "growing_"..def.name)
@@ -444,7 +447,7 @@ gourds.register_gourd = function(def)
 	-- isolated gourds rot
 	minetest.register_abm({
 		nodenames = {"group:"..def.name.."_gourd"},
-		interval = 10,
+		interval = 20,
 		chance = base_speed * 30,
 		action = function(pos)
 			
@@ -465,7 +468,7 @@ gourds.register_gourd = function(def)
 	-- ripe gourds eventually rot
 	minetest.register_abm({
 		nodenames = {"gourds:"..def.name.."_8"},
-		interval = 5,
+		interval = 10,
 		chance = base_speed * 20,
 		action = function(pos)
 			minetest.set_node(pos, {name=rotting_fruit_name})
@@ -475,7 +478,7 @@ gourds.register_gourd = function(def)
 	-- rotten gourds disappear
 	minetest.register_abm({
 		nodenames = {rotting_fruit_name},
-		interval = 5,
+		interval = 10,
 		chance = base_speed * 20,
 		action = function(pos)
 			if math.random(50) == 1 then

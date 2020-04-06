@@ -12,7 +12,7 @@ gourds.register_gourd({
 	name = "pumpkin",
 	desc = "Pumpkin",
 	
-	base_speed = 8,
+	base_speed = 19,
 	grows_on = "soil",
 	
 	textures = {
@@ -56,7 +56,7 @@ gourds.register_gourd({
 	name = "watermelon",
 	desc = "Watermelon",
 	
-	base_speed = 7,
+	base_speed = 19,
 	grows_on = "sand",
 	
 	textures = {
